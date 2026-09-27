@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class LoginController extends Controller
 {
     /**
-     * Menampilkan halaman login.
+     * Tampilkan halaman login.
      */
     public function showLoginForm()
     {
@@ -20,70 +20,141 @@ class LoginController extends Controller
     }
 
     /**
-     * Memproses login pengguna.
+     * Proses login.
      */
     public function login(Request $request)
     {
-        // Validasi input
-        $credentials = $request->validate([
-            'email' => [
-                'required',
-                'email',
+        $credentials = $request->validate(
+            [
+                'email' => [
+                    'required',
+                    'email',
+                    'max:255',
+                ],
+
+                'password' => [
+                    'required',
+                    'string',
+                ],
             ],
+            [
+                'email.required' =>
+                    'Email wajib diisi.',
 
-            'password' => [
-                'required',
-                'string',
-            ],
-        ], [
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'password.required' => 'Password wajib diisi.',
-        ]);
+                'email.email' =>
+                    'Format email tidak valid.',
 
-        // Membuat kunci pembatas percobaan login
-        $throttleKey = Str::lower($request->input('email'))
-            . '|' . $request->ip();
+                'password.required' =>
+                    'Password wajib diisi.',
+            ]
+        );
 
-        // Maksimal 5 percobaan login
-        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
-            $seconds = RateLimiter::availableIn($throttleKey);
+        /*
+        |--------------------------------------------------------------------------
+        | Rate Limiting
+        |--------------------------------------------------------------------------
+        */
+
+        $throttleKey = Str::lower(
+            Str::transliterate($request->input('email'))
+        ) . '|' . $request->ip();
+
+        $maxAttempts = 5;
+        $decaySeconds = 60;
+
+        if (RateLimiter::tooManyAttempts(
+            $throttleKey,
+            $maxAttempts
+        )) {
+            $seconds = RateLimiter::availableIn(
+                $throttleKey
+            );
 
             throw ValidationException::withMessages([
                 'email' => [
-                    'Terlalu banyak percobaan login. '
-                    . 'Silakan coba lagi dalam '
-                    . $seconds . ' detik.',
+                    'Terlalu banyak percobaan login. Silakan coba lagi dalam '
+                    . $seconds
+                    . ' detik.',
                 ],
             ]);
         }
 
-        // Proses autentikasi
-        if (! Auth::attempt(
-            $credentials,
+        /*
+        |--------------------------------------------------------------------------
+        | Coba Login
+        |--------------------------------------------------------------------------
+        */
+
+        if (!Auth::attempt(
+            [
+                'email' => $credentials['email'],
+                'password' => $credentials['password'],
+            ],
             $request->boolean('remember')
         )) {
-            RateLimiter::hit($throttleKey, 60);
+            RateLimiter::hit(
+                $throttleKey,
+                $decaySeconds
+            );
 
             throw ValidationException::withMessages([
-                'email' => 'Email atau password yang kamu masukkan salah.',
+                'email' => [
+                    'Email atau password yang kamu masukkan salah.',
+                ],
             ]);
         }
 
-        // Hapus pembatas percobaan login
+        /*
+        |--------------------------------------------------------------------------
+        | Login berhasil
+        |--------------------------------------------------------------------------
+        */
+
         RateLimiter::clear($throttleKey);
 
-        // Regenerasi session untuk keamanan
         $request->session()->regenerate();
 
-        // Redirect setelah login berhasil
-        return redirect()->intended(
-            route('topup.index')
-        )->with('success', 'Berhasil login. Selamat datang di Tring.id!');
+        $user = Auth::user();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Pastikan User punya Merchant
+        |--------------------------------------------------------------------------
+        */
+
+        if (empty($user->idmerchant)) {
+            Auth::logout();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            throw ValidationException::withMessages([
+                'email' => [
+                    'Akun belum terhubung dengan merchant Tring POS.',
+                ],
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Redirect Dashboard POS
+        |--------------------------------------------------------------------------
+        */
+
+        return redirect()
+            ->intended(
+                route('dashboard.owner', [
+                    'idmerchant' => $user->idmerchant,
+                ])
+            )
+            ->with(
+                'success',
+                'Berhasil login. Selamat datang di Tring POS!'
+            );
     }
 
     /**
-     * Logout pengguna.
+     * Logout.
      */
     public function logout(Request $request)
     {
@@ -93,7 +164,11 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/')
-            ->with('success', 'Kamu berhasil logout.');
+        return redirect()
+            ->route('login')
+            ->with(
+                'success',
+                'Kamu berhasil logout dari Tring POS.'
+            );
     }
 }
