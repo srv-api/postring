@@ -810,17 +810,6 @@
                     </div>
                 @endif
 
-
-                <div class="login-divider">
-                    LOGIN AMAN DAN TERPERCAYA
-                </div>
-
-
-                <div class="login-security">
-                    <i class="bi bi-shield-lock-fill"></i>
-                    <span>Keamanan akun kamu adalah prioritas kami.</span>
-                </div>
-
             </div>
 
         </section>

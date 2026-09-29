@@ -129,31 +129,19 @@ class RegisterController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        event(new Registered($user));
+event(new Registered($user));
 
-        /*
-        |--------------------------------------------------------------------------
-        | Login otomatis setelah registrasi
-        |--------------------------------------------------------------------------
-        */
+Auth::login($user);
 
-        Auth::login($user);
+$request->session()->regenerate();
 
-        $request->session()->regenerate();
-
-        /*
-        |--------------------------------------------------------------------------
-        | Masuk ke dashboard merchant
-        |--------------------------------------------------------------------------
-        */
-
-        return redirect()
-            ->route('dashboard.owner', [
-                'idmerchant' => $user->idmerchant,
-            ])
-            ->with(
-                'success',
-                'Akun Tring POS berhasil dibuat. Selamat datang!'
-            );
+return redirect()
+    ->route('dashboard.owner', [
+        'idmerchant' => $user->idmerchant,
+    ])
+    ->with(
+        'success',
+        'Akun Tring POS berhasil dibuat. Selamat datang!'
+    );
     }
 }
