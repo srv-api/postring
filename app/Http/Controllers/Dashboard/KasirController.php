@@ -4,27 +4,29 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
 
 class KasirController extends Controller
 {
-    public function index($idmerchant)
-    {
-        $user = Auth::user();
+public function index(string $idmerchant)
+{
+    $products = Product::query()
+        ->where('idmerchant', $idmerchant)
+        ->where('is_active', true)
+        ->orderBy('name')
+        ->get();
 
-        // Pastikan merchant milik user yang sedang login
-        if ($user->idmerchant != $idmerchant) {
-            abort(403, 'Anda tidak memiliki akses ke merchant ini.');
-        }
+    $categories = $products
+        ->pluck('category')
+        ->filter()
+        ->unique()
+        ->sort()
+        ->values();
 
-        $merchant = [
-            'idmerchant' => $user->idmerchant,
-            'name'       => $user->name,
-            'email'      => $user->email,
-        ];
-
-        return view('dashboard.owner.kasir', compact(
-            'merchant',
-            'user'
-        ));
-    }
+    return view('dashboard.owner.kasir', [
+        'products' => $products,
+        'categories' => $categories,
+        'idmerchant' => $idmerchant,
+    ]);
+}
 }
