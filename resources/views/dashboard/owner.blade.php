@@ -216,28 +216,28 @@
                 </a>
 
 
-                <a
-                    href="#"
-                    class="quick-action"
-                >
+          <a
+    href="{{ route('stocks.index', ['idmerchant' => $merchant['idmerchant']]) }}"
+    class="quick-action"
+>
 
-                    <div class="quick-action-icon">
-                        <i class="bi bi-box-arrow-in-down"></i>
-                    </div>
+    <div class="quick-action-icon">
+        <i class="bi bi-box-arrow-in-down"></i>
+    </div>
 
-                    <div>
+    <div>
 
-                        <div class="quick-action-title">
-                            Kelola Stok
-                        </div>
+        <div class="quick-action-title">
+            Kelola Stok
+        </div>
 
-                        <div class="quick-action-description">
-                            Atur stok barang
-                        </div>
+        <div class="quick-action-description">
+            Atur stok barang
+        </div>
 
-                    </div>
+    </div>
 
-                </a>
+</a>
 
 
                 <a

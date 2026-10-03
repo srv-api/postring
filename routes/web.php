@@ -12,7 +12,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Dashboard\OwnerDashboardController;
 use App\Http\Controllers\Dashboard\KasirController;
 use App\Http\Controllers\Dashboard\ProductController;
-
+use App\Http\Controllers\Dashboard\StockController;
 
 /*
 |--------------------------------------------------------------------------
@@ -273,6 +273,39 @@ Route::middleware([
         ProductController::class,
         'destroy',
     ])->name('products.destroy');
+
+    /*
+|--------------------------------------------------------------------------
+| Kelola Stok
+|--------------------------------------------------------------------------
+*/
+
+// Halaman kelola stok
+Route::get('/dashboard/owner/{idmerchant}/stok', [
+    StockController::class,
+    'index',
+])->name('stocks.index');
+
+
+// Tambah stok
+Route::post('/dashboard/owner/{idmerchant}/stok/{product}/tambah', [
+    StockController::class,
+    'add',
+])->name('stocks.add');
+
+
+// Kurangi stok
+Route::post('/dashboard/owner/{idmerchant}/stok/{product}/kurangi', [
+    StockController::class,
+    'remove',
+])->name('stocks.remove');
+
+
+// Riwayat stok
+Route::get('/dashboard/owner/{idmerchant}/stok/riwayat', [
+    StockController::class,
+    'history',
+])->name('stocks.history');
 
 
     /*

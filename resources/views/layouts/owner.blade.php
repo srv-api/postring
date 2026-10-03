@@ -2,6 +2,7 @@
 <html lang="id">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -24,11 +25,7 @@
         href="{{ asset('tring.png') }}"
     >
 
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
@@ -45,7 +42,14 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     >
 
+    {{-- Bootstrap CSS --}}
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
     <style>
+
         :root {
             --primary: #7F0079;
             --primary-dark: #650061;
@@ -68,15 +72,18 @@
             --sidebar-width: 250px;
         }
 
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+
         html {
             scroll-behavior: smooth;
         }
+
 
         body {
             font-family: 'Inter', sans-serif;
@@ -85,6 +92,7 @@
             min-height: 100vh;
         }
 
+
         button,
         input,
         select,
@@ -92,18 +100,22 @@
             font-family: inherit;
         }
 
+
         button {
             cursor: pointer;
         }
+
 
         a {
             color: inherit;
             text-decoration: none;
         }
 
+
         .app {
             min-height: 100vh;
         }
+
 
         .main {
             margin-left: var(--sidebar-width);
@@ -113,19 +125,21 @@
             flex-direction: column;
         }
 
+
         .content {
             flex: 1;
+            width: 100%;
             padding: 30px 32px;
         }
 
-        /* =====================================================
+
+        /* =========================
            COMMON
-        ====================================================== */
+        ========================= */
 
         .alert-success {
             display: flex;
             align-items: center;
-
             gap: 10px;
 
             padding: 12px 15px;
@@ -137,21 +151,23 @@
             border: 1px solid #BBF7D0;
 
             color: #166534;
-
             font-size: 11px;
         }
+
 
         .alert-success i {
             font-size: 15px;
         }
 
-        /* =====================================================
+
+        /* =========================
            WELCOME
-        ====================================================== */
+        ========================= */
 
         .welcome {
             margin-bottom: 25px;
         }
+
 
         .welcome h2 {
             font-size: 24px;
@@ -159,28 +175,27 @@
             letter-spacing: -.8px;
         }
 
+
         .welcome p {
             margin-top: 7px;
 
             color: var(--gray-2);
-
             font-size: 12px;
         }
 
-        /* =====================================================
+
+        /* =========================
            STATISTICS
-        ====================================================== */
+        ========================= */
 
         .stats {
             display: grid;
-
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
 
             gap: 16px;
-
             margin-bottom: 25px;
         }
+
 
         .stat-card {
             background: var(--white);
@@ -195,12 +210,14 @@
                 box-shadow .2s ease;
         }
 
+
         .stat-card:hover {
             transform: translateY(-2px);
 
             box-shadow:
                 0 8px 25px rgba(0, 0, 0, .05);
         }
+
 
         .stat-top {
             display: flex;
@@ -209,6 +226,7 @@
 
             margin-bottom: 16px;
         }
+
 
         .stat-icon {
             width: 37px;
@@ -226,12 +244,14 @@
             font-size: 16px;
         }
 
+
         .stat-title {
             color: var(--gray-3);
 
             font-size: 10px;
             font-weight: 600;
         }
+
 
         .stat-value {
             color: var(--gray-1);
@@ -242,17 +262,18 @@
             letter-spacing: -.5px;
         }
 
+
         .stat-note {
             margin-top: 5px;
 
             color: var(--gray-3);
-
             font-size: 9px;
         }
 
-        /* =====================================================
+
+        /* =========================
            GRID
-        ====================================================== */
+        ========================= */
 
         .dashboard-grid {
             display: grid;
@@ -264,6 +285,7 @@
             gap: 18px;
         }
 
+
         .card {
             background: var(--white);
 
@@ -272,6 +294,7 @@
 
             overflow: hidden;
         }
+
 
         .card-header {
             min-height: 60px;
@@ -285,18 +308,20 @@
             border-bottom: 1px solid var(--border);
         }
 
+
         .card-title {
             font-size: 12px;
             font-weight: 800;
         }
 
+
         .card-subtitle {
             margin-top: 4px;
 
             color: var(--gray-3);
-
             font-size: 9px;
         }
+
 
         .card-link {
             color: var(--primary);
@@ -305,9 +330,10 @@
             font-weight: 700;
         }
 
-        /* =====================================================
+
+        /* =========================
            QUICK ACTION
-        ====================================================== */
+        ========================= */
 
         .quick-actions {
             display: grid;
@@ -320,10 +346,10 @@
             padding: 18px;
         }
 
+
         .quick-action {
             display: flex;
             align-items: center;
-
             gap: 11px;
 
             padding: 13px;
@@ -336,10 +362,12 @@
                 background .2s ease;
         }
 
+
         .quick-action:hover {
             border-color: rgba(127, 0, 121, .25);
             background: var(--primary-light);
         }
+
 
         .quick-action-icon {
             width: 34px;
@@ -359,35 +387,40 @@
             font-size: 15px;
         }
 
+
         .quick-action-title {
             font-size: 10px;
             font-weight: 700;
         }
+
 
         .quick-action-title a {
             color: inherit;
             text-decoration: none;
         }
 
+
         .quick-action-title a:hover {
             color: var(--primary);
         }
+
 
         .quick-action-description {
             margin-top: 3px;
 
             color: var(--gray-3);
-
             font-size: 8px;
         }
 
-        /* =====================================================
+
+        /* =========================
            INFORMATION
-        ====================================================== */
+        ========================= */
 
         .info-list {
             padding: 8px 18px 18px;
         }
+
 
         .info-row {
             display: flex;
@@ -395,20 +428,22 @@
             justify-content: space-between;
 
             gap: 20px;
-
             padding: 12px 0;
 
             border-bottom: 1px solid #F1F1F1;
         }
 
+
         .info-row:last-child {
             border-bottom: none;
         }
+
 
         .info-label {
             color: var(--gray-3);
             font-size: 9px;
         }
+
 
         .info-value {
             color: var(--gray-1);
@@ -419,10 +454,10 @@
             text-align: right;
         }
 
+
         .status {
             display: inline-flex;
             align-items: center;
-
             gap: 5px;
 
             padding: 4px 8px;
@@ -436,6 +471,7 @@
             font-weight: 700;
         }
 
+
         .status::before {
             content: "";
 
@@ -447,13 +483,15 @@
             background: currentColor;
         }
 
-        /* =====================================================
+
+        /* =========================
            MOBILE
-        ====================================================== */
+        ========================= */
 
         .mobile-header {
             display: none;
         }
+
 
         .mobile-brand {
             display: flex;
@@ -466,6 +504,7 @@
             font-weight: 800;
         }
 
+
         .mobile-brand img {
             width: 30px;
             height: 30px;
@@ -473,9 +512,10 @@
             object-fit: contain;
         }
 
-        /* =====================================================
+
+        /* =========================
            RESPONSIVE
-        ====================================================== */
+        ========================= */
 
         @media (max-width: 1100px) {
 
@@ -484,10 +524,13 @@
                     repeat(2, minmax(0, 1fr));
             }
 
+
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
+
         }
+
 
         @media (max-width: 800px) {
 
@@ -495,13 +538,16 @@
                 --sidebar-width: 0px;
             }
 
+
             .sidebar {
                 display: none;
             }
 
+
             .main {
                 margin-left: 0;
             }
+
 
             .mobile-header {
                 display: flex;
@@ -518,15 +564,19 @@
                 border-bottom: 1px solid var(--border);
             }
 
+
             .topbar {
                 position: static;
                 padding: 0 20px;
             }
 
+
             .content {
                 padding: 25px 20px;
             }
+
         }
+
 
         @media (max-width: 550px) {
 
@@ -535,60 +585,82 @@
                 padding: 17px 20px;
             }
 
+
             .user-info {
                 display: none;
             }
+
 
             .stats {
                 grid-template-columns: 1fr;
             }
 
+
             .welcome h2 {
                 font-size: 21px;
             }
+
 
             .quick-actions {
                 grid-template-columns: 1fr;
             }
 
+
             .content {
                 padding: 22px 15px;
             }
+
         }
 
-        @stack('styles')
     </style>
+
+    @stack('styles')
+
 </head>
+
 
 <body>
 
-<div class="app">
+    <div class="app">
 
-    {{-- SIDEBAR --}}
-    @include('components.owner.sidebar')
+        {{-- SIDEBAR --}}
+        @include('components.owner.sidebar')
 
-    {{-- MAIN --}}
-    <main class="main">
 
-        {{-- MOBILE HEADER --}}
-        @include('components.owner.mobile-header')
+        <main class="main">
 
-        {{-- TOPBAR --}}
-        @include('components.owner.topbar')
+            {{-- MOBILE HEADER --}}
+            @include('components.owner.mobile-header')
 
-        {{-- CONTENT --}}
-        <div class="content">
-            @yield('content')
-        </div>
 
-        {{-- FOOTER --}}
-        @include('components.owner.footer')
+            {{-- TOPBAR --}}
+            @include('components.owner.topbar')
 
-    </main>
 
-</div>
+            {{-- CONTENT --}}
+            <div class="content">
 
-@stack('scripts')
+                @yield('content')
+
+            </div>
+
+
+            {{-- FOOTER --}}
+            @include('components.owner.footer')
+
+        </main>
+
+    </div>
+
+
+    {{-- Bootstrap JS --}}
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
+    @stack('scripts')
 
 </body>
+
 </html>
